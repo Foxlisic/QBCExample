@@ -170,6 +170,14 @@ void line(int x1, int y1, int x2, int y2, Uint8 color) {
     }
 }
 
+Uint32 rgb(int r, int g, int b) {
+
+    r = (r < 0) ? 0 : (r > 255 ? 255 : r);
+    g = (g < 0) ? 0 : (g > 255 ? 255 : g);
+    b = (b < 0) ? 0 : (b > 255 ? 255 : b);
+    return r*65536 + g*256 + b;
+}
+
 // Сформировать палитру
 void palette(Uint8 idx, Uint32 rgb) {
     _dos_palette[idx] = rgb;

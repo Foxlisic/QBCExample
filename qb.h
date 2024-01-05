@@ -4,9 +4,12 @@
 #include <stdio.h>
 #include <math.h>
 
+struct vec3 { double x, y, z; };
+
 // Обертка для основной программы
 #define program(m) int main(int argc, char** argv) { screen(m);
 #define end destroy(); return 0; }
+#define FOR(a,b,c) for (int a = b; a <= c; a++)
 
 // Вспомогательные конструкции
 #define fps while (frame())
