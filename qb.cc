@@ -162,3 +162,10 @@ void save() {
 void palette(Uint8 idx, Uint32 rgb) {
     _dos_palette[idx] = rgb;
 }
+
+// Создать монотонную палитру grayscale
+void palette_gray() {
+
+    for (int idx = 0; idx < 256; idx++)
+        _dos_palette[idx] = idx + 256*idx + 65536*idx;
+}

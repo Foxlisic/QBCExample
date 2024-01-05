@@ -2,14 +2,13 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 // Обертка для основной программы
 #define program(m) int main(int argc, char** argv) { screen(m);
 #define end destroy(); return 0; }
 
 // Вспомогательные конструкции
-#define sub(x) void x()
-#define function(x) double x()
 #define fps while (frame())
 
 // -----------------------------------------------------------------------------
