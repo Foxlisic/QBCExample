@@ -8,6 +8,7 @@ void screen(int x) {
 
     switch (x) {
 
+        case  3: _width = 640; _height = 400; _scale = 2; break;
         case 12: _width = 640; _height = 400; _scale = 2; break;
         case 13: _width = 320; _height = 200; _scale = 4; break;
     }

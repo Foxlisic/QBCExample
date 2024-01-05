@@ -1,6 +1,6 @@
 #include <qb.h>
 
-program(13) fps {
+program(3) fps {
 
     // Обработка одного кадра
 
