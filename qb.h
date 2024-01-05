@@ -12,13 +12,15 @@
 #define fps while (frame())
 
 // -----------------------------------------------------------------------------
-int                 _videomode, _prev_ticks, _width, _height, _scale;
-SDL_Window*         _sdl_window;
-SDL_Renderer*       _sdl_renderer;
-SDL_Texture*        _sdl_screen_texture;
-Uint32*             _screen_buffer;
-Uint8*              _screen_buffer_idx;
-Uint32              _dos_palette[256];
+int             _videomode, _prev_ticks, _width, _height, _scale;
+SDL_Window*     _sdl_window;
+SDL_Renderer*   _sdl_renderer;
+SDL_Texture*    _sdl_screen_texture;
+Uint32*         _screen_buffer;
+Uint8*          _screen_buffer_idx;
+Uint32          _dos_palette[256];
+int             _save_frame;
+int             _x_term, _y_term, _fore, _back;
 
 // -----------------------------------------------------------------------------
 
