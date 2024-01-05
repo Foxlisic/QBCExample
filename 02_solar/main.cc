@@ -67,5 +67,7 @@ program(13) palette_gray(); fps {
 
     phase += 0.05;
 
+    save();
+
 } end
 
