@@ -10,12 +10,13 @@ void screen(int x, int parameter = 0) {
     _y_term     = 0;
     _fore       = 15;
     _back       = -1;
+    _font_size  = 16;
 
     switch (x) {
 
-        case  3: _width = 640; _height = 400; _scale = 2; break;
-        case 12: _width = 640; _height = 400; _scale = 2; break;
-        case 13: _width = 320; _height = 200; _scale = 4; break;
+        case  3: _width = 640; _height = 400; _scale = 2; _font_size = 16; break;
+        case 12: _width = 640; _height = 400; _scale = 2; _font_size = 16; break;
+        case 13: _width = 320; _height = 200; _scale = 4; _font_size = 8;  break;
     }
 
     _screen_buffer      = (Uint32*) malloc(_width * _height * sizeof(Uint32));
@@ -42,9 +43,6 @@ void save() {
         fprintf(fp, "P6\n# Verilator\n%d %d\n255\n", _width, _height);
         for (int y = 0; y < _height; y++)
         for (int x = 0; x < _width; x++) {
-
-            // int cl = _screen_buffer[y*_width + x];
-            // int vl = ((cl >> 16) & 255) + (cl & 0xFF00) + ((cl&255)<<16);
             fwrite(&_screen_buffer[y*_width + x], 1, 3, fp);
         }
 
@@ -202,13 +200,18 @@ void locate(int x, int y) {
     _y_term = y;
 }
 
+// Размер шрифта 8 или 16
+void font(int size) {
+    _font_size = size;
+}
+
 // Печать одного символа на экране
 void printch(unsigned char ch) {
 
-    for (int i = 0; i < 16; i++)
+    for (int i = 0; i < _font_size; i++)
     for (int j = 0; j < 8;  j++) {
 
-        int k  = font8x16[16*ch+i];
+        int k  = _font_size == 16 ? font8x16[16*ch + i] : font8x8[8*ch + i];
         int cl = k & (1 << (7-j)) ? _fore : _back;
 
         if (cl >= 0) pset(_x_term + j, _y_term + i, _dos_palette[cl & 255]);

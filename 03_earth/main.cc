@@ -5,7 +5,7 @@ float rot = 0;
 // -----------------------------------------------------------------------------
 
 // Псевдослучайный шум
-double rand (double x, double y) {
+double rnd(double x, double y) {
 
     double m = sin(x * 12.9898 + y * 78.233) * 43758.54531229988;
     return m - floor(m);
@@ -19,10 +19,10 @@ double noise(float x, float y) {
     double fx = x - ix;
     double fy = y - iy;
 
-    double a = rand(ix,      iy);
-    double b = rand(ix + 1., iy);
-    double c = rand(ix,      iy + 1.);
-    double d = rand(ix + 1., iy + 1.);
+    double a = rnd(ix,      iy);
+    double b = rnd(ix + 1., iy);
+    double c = rnd(ix,      iy + 1.);
+    double d = rnd(ix + 1., iy + 1.);
 
     double ux = fx * fx * (3 - 2 * fx);
     double uy = fy * fy * (3 - 2 * fy);
@@ -99,11 +99,11 @@ void custompal() {
 
     int i;
 
-    // Earth landscape [0..63]
+    // Earth [0..63]
     FOR(i,1,63) palette(   i, rgb(   i, 128 + i * 2, 4*i));
 
-    // Earth water [64..71]
-    FOR(i,0,7)  palette(64+i, rgb(i * 32, 64 + 24 * i, 255));
+    // Water [64..71]
+    FOR(i,0,7)  palette(64+i, rgb(i * 32, 32 + 24 * i, 255));
 
     // Starfeld [72..135]
     FOR(i,0,63) palette(72+i, rgb(4*i, 4*i, 4*i));
@@ -113,42 +113,45 @@ void custompal() {
 
 program(13) custompal(); fps {
 
-    vec3 c, o = {0, 0, 1.5}, sun = normalize({1, 0, -.5});
-
     double u, v, m, dt = 8;
+    vec3 c, o = {0, 0, 1.5}, sun = normalize({1, 1, -.5});
 
-    for (int y=  -100; y < 100; y++)
-    for (int x = -160; x < 160; x++) {
+    srand(1);
+    FOR(i,0,320) pset(rand()%320, rand()%200, rand()%64+72);
+
+    FOR (y,-100,99) FOR (x,-160,159) {
 
         c = {(float)x / 100, (float)y / 100, 1};
-        m = sphere(c, o, 1);
 
-        if (m > 0) {
+        if ((m = sphere(c, o, 1)) > 0) {
 
-            // Normal vector
+            // Точка пересечения
             c.x = c.x * m - o.x;
             c.y = c.y * m - o.y;
             c.z = c.z * m - o.z;
-            c = normalize(c);
+            c   = normalize(c);
 
-            // UV-calc
+            // Вычислить UV
             u = atan2(c.z, c.x);
             v = atan2(c.z, c.y);
             u = u + rot;
 
-            // Get fractional part
+            // Получение дробной части
             u = u - floor(u);
             v = v - floor(v);
             m = fbm(dt * u, dt * v) * 63;
 
-            // Directional Light
-            // dl = c.x * sun.x + c.y * sun.y + c.z * sun.z
-            // IF dl < 0 THEN dl = 0
+            // Свет Солнца
+            int dl = 128*(c.x * sun.x + c.y * sun.y + c.z * sun.z);
 
-            // Water or surface
-            m = m < 32 ? 64 : (2*m - 64);
+            // Дизеринг
+            dl = dl + lookupdith[x&7][y&7] - 64;
 
-            pset(160 + x, 100 - y, m);
+            // Вода или поверхность?
+            m = (m <= 32) ? 64 : (2*m - 63);
+
+            // Использовать дизеринг для затененения
+            pset(160 + x, 100 - y, dl <= 0 ? 0 : m);
         }
     }
 
