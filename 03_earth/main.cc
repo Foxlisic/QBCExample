@@ -119,6 +119,8 @@ program(13) custompal(); fps {
     srand(1);
     FOR(i,0,320) pset(rand()%320, rand()%200, rand()%64+72);
 
+    color(120); locate(8, 8); print("Earth Song");
+
     FOR (y,-100,99) FOR (x,-160,159) {
 
         c = {(float)x / 100, (float)y / 100, 1};
@@ -154,6 +156,7 @@ program(13) custompal(); fps {
             pset(160 + x, 100 - y, dl <= 0 ? 0 : m);
         }
     }
+
 
     rot += 0.005;
 

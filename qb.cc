@@ -213,8 +213,7 @@ void printch(unsigned char ch) {
 
         int k  = _font_size == 16 ? font8x16[16*ch + i] : font8x8[8*ch + i];
         int cl = k & (1 << (7-j)) ? _fore : _back;
-
-        if (cl >= 0) pset(_x_term + j, _y_term + i, _dos_palette[cl & 255]);
+        if (cl >= 0) pset(_x_term + j, _y_term + i, cl);
     }
 }
 
