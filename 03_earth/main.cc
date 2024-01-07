@@ -71,12 +71,11 @@ vec3 normalize (vec3 c) {
 // Вычисление пересечений луча D со сферой в точке O и радиусом R
 double sphere (vec3 d, vec3 o, double r) {
 
-    double sp = -1;
-
-    double a = d.x * d.x + d.y * d.y + d.z * d.z;
-    double b = -2 * (d.x * o.x + d.y * o.y + d.z * o.z);
-    double c = o.x * o.x + o.y * o.y + o.z * o.z - r;
-    double det = b*b - 4*a*c;
+    double sp   = -1;
+    double a    = d.x * d.x + d.y * d.y + d.z * d.z;
+    double b    = -2 * (d.x * o.x + d.y * o.y + d.z * o.z);
+    double c    = o.x * o.x + o.y * o.y + o.z * o.z - r;
+    double det  = b*b - 4*a*c;
 
     if (det >= 0) {
 
@@ -97,16 +96,9 @@ double sphere (vec3 d, vec3 o, double r) {
 // Кастомная палитра
 void custompal() {
 
-    int i;
-
-    // Earth [0..63]
-    FOR(i,1,63) palette(   i, rgb(   i, 128 + i * 2, 4*i));
-
-    // Water [64..71]
-    FOR(i,0,7)  palette(64+i, rgb(i * 32, 32 + 24 * i, 255));
-
-    // Starfeld [72..135]
-    FOR(i,0,63) palette(72+i, rgb(4*i, 4*i, 4*i));
+    FOR(i,1,63) palette(   i, rgb(i,      128 + i * 2, 4*i));   // Earth [0..63]
+    FOR(i,0,7)  palette(64+i, rgb(i * 32, 32 + 24 * i, 255));   // Water [64..71]
+    FOR(i,0,63) palette(72+i, rgb(4*i,    4*i,         4*i));   // Starfeld [72..135]
 }
 
 // -----------------------------------------------------------------------------
@@ -117,10 +109,14 @@ program(13) custompal(); fps {
     vec3 c, o = {0, 0, 1.5}, sun = normalize({1, 1, -.5});
 
     srand(1);
+
+    // Звездное небо
     FOR(i,0,320) pset(rand()%320, rand()%200, rand()%64+72);
 
+    // Приветствие
     color(120); locate(8, 8); print("Earth Song");
 
+    // Планетарность
     FOR (y,-100,99) FOR (x,-160,159) {
 
         c = {(float)x / 100, (float)y / 100, 1};
@@ -156,7 +152,6 @@ program(13) custompal(); fps {
             pset(160 + x, 100 - y, dl <= 0 ? 0 : m);
         }
     }
-
 
     rot += 0.005;
 

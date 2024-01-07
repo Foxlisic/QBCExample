@@ -11,11 +11,12 @@ void screen(int x, int parameter = 0) {
     _fore       = 15;
     _back       = -1;
     _font_size  = 16;
+    _first_frame = 1;
 
     switch (x) {
 
         case  3: _width = 640; _height = 400; _scale = 2; _font_size = 16; break;
-        case 12: _width = 640; _height = 400; _scale = 2; _font_size = 16; break;
+        case 12: _width = 640; _height = 480; _scale = 2; _font_size = 16; break;
         case 13: _width = 320; _height = 200; _scale = 4; _font_size = 8;  break;
     }
 
@@ -37,13 +38,21 @@ void screen(int x, int parameter = 0) {
 // Сохранение фрейма
 void save() {
 
+    // Первый фрейм никогда не сохранять: там постоянно пусто
+    if (_first_frame) { _first_frame = 0; return; }
+
     FILE* fp = fopen("out/record.ppm", "ab");
     if (fp) {
 
-        fprintf(fp, "P6\n# Verilator\n%d %d\n255\n", _width, _height);
+        fprintf(fp, "P6\n%d %d\n255\n", _width, _height);
         for (int y = 0; y < _height; y++)
         for (int x = 0; x < _width; x++) {
-            fwrite(&_screen_buffer[y*_width + x], 1, 3, fp);
+
+            Uint32 a = _screen_buffer[y*_width + x];
+            Uint8  b = a, g = a >> 8, r = a >> 16;
+            Uint32 c = r + 256*g + 65536*b;
+
+            fwrite(&c, 1, 3, fp);
         }
 
         fclose(fp);
