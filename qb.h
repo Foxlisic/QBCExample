@@ -8,7 +8,7 @@ struct vec3 { double x, y, z; };
 
 // Обертка для основной программы
 #define program(m) int main(int argc, char** argv) { screen(m);
-#define end destroy(); return 0; }
+#define end ; destroy(); return 0; }
 #define FOR(a,b,c) for (int a = b; a <= c; a++)
 
 // Вспомогательные конструкции
@@ -22,7 +22,7 @@ SDL_Texture*    _sdl_screen_texture;
 Uint32*         _screen_buffer;
 Uint8*          _screen_buffer_idx;
 Uint32          _dos_palette[256];
-int             _save_frame, _first_frame;
+int             _save_frame;
 int             _x_term, _y_term, _fore, _back, _font_size;
 
 // -----------------------------------------------------------------------------

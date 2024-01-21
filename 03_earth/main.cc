@@ -103,7 +103,7 @@ void custompal() {
 
 // -----------------------------------------------------------------------------
 
-program(13) custompal(); fps {
+program(13) custompal(); do {
 
     double u, v, m, dt = 8;
     vec3 c, o = {0, 0, 1.5}, sun = normalize({1, 1, -.5});
@@ -155,5 +155,5 @@ program(13) custompal(); fps {
 
     rot += 0.005;
 
-} end
+} fps end
 

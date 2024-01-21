@@ -11,7 +11,6 @@ void screen(int x, int parameter = 0) {
     _fore       = 15;
     _back       = -1;
     _font_size  = 16;
-    _first_frame = 1;
 
     switch (x) {
 
@@ -37,9 +36,6 @@ void screen(int x, int parameter = 0) {
 
 // Сохранение фрейма
 void save() {
-
-    // Первый фрейм никогда не сохранять: там постоянно пусто
-    if (_first_frame) { _first_frame = 0; return; }
 
     FILE* fp = fopen("out/record.ppm", "ab");
     if (fp) {

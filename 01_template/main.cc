@@ -1,8 +1,8 @@
 #include <qb.h>
 
-program(13) fps {
+program(13) do {
 
     // Обработка одного кадра
 
-} end
+} fps end
 
